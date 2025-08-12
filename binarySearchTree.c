@@ -1,4 +1,3 @@
-  GNU nano 5.4                                                                                                                      bst.c                                                                                                                               
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -11,14 +10,14 @@ Node* r = NULL;
 void insert(int k){
     Node* node = (Node*) malloc(sizeof(Node));
     node->k = k;
-    node->r = node->l = NULL;
-    if(r == NULL){
+    node->l = node->r = NULL;
+    if (r == NULL){
         r = node;
         return;
     }
     Node* c = r;
-    Node* p  =NULL;
-    while(c !=NULL){
+    Node* p = NULL;
+    while(c != NULL){
         p = c;
         if(k < c->k){
             c = c->l;
@@ -32,15 +31,15 @@ void insert(int k){
         }
     }
     if(k<p->k){
-        p->l = node;
+        p->l=node;
     }
     else{
-        p->r = node;
+        p->r=node;
     }
 }
 
 void inorder(Node* node){
-if(node){
+    if(node != NULL){
         inorder(node->l);
         printf("%d->", node->k);
         inorder(node->r);
@@ -50,15 +49,21 @@ if(node){
 void levelorder(Node* node){
     Node* queue[1024];
     int f, b = 0;
-    queue[b++] = r;
-    while(f < b){
+    queue[b++] = node;
+    while(f<b){
         Node* c = queue[f++];
-        printf("%d->", c->k);
+        printf("%d->",c->k);
         if(c->l) queue[b++] = c->l;
-        if(c->r) queue[b++] = c ->r;
+        if(c->r) queue[b++] = c->r;
     }
 }
 
+void postorder(Node* node){
+    if (!node) return;
+    postorder(node->l);
+    postorder(node->r);
+    printf("%d->", node->k);
+}
 
 void main(){
     insert(50);
@@ -68,6 +73,10 @@ void main(){
     insert(40);
     insert(60);
     insert(80);
+    inorder(r);
+    printf("NULL\n");
     levelorder(r);
-    printf("\n");
+    printf("NULL\n");
+    postorder(r);
+    printf("NULL\n");
 }
